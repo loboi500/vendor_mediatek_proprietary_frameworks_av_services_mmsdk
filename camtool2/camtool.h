@@ -1,0 +1,169 @@
+/* Copyright Statement:
+ *
+ * This software/firmware and related documentation ("MediaTek Software") are
+ * protected under relevant copyright laws. The information contained herein is
+ * confidential and proprietary to MediaTek Inc. and/or its licensors. Without
+ * the prior written permission of MediaTek inc. and/or its licensors, any
+ * reproduction, modification, use or disclosure of MediaTek Software, and
+ * information contained herein, in whole or in part, shall be strictly
+ * prohibited.
+ *
+ * MediaTek Inc. (C) 2010. All rights reserved.
+ *
+ * BY OPENING THIS FILE, RECEIVER HEREBY UNEQUIVOCALLY ACKNOWLEDGES AND AGREES
+ * THAT THE SOFTWARE/FIRMWARE AND ITS DOCUMENTATIONS ("MEDIATEK SOFTWARE")
+ * RECEIVED FROM MEDIATEK AND/OR ITS REPRESENTATIVES ARE PROVIDED TO RECEIVER
+ * ON AN "AS-IS" BASIS ONLY. MEDIATEK EXPRESSLY DISCLAIMS ANY AND ALL
+ * WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR
+ * NONINFRINGEMENT. NEITHER DOES MEDIATEK PROVIDE ANY WARRANTY WHATSOEVER WITH
+ * RESPECT TO THE SOFTWARE OF ANY THIRD PARTY WHICH MAY BE USED BY,
+ * INCORPORATED IN, OR SUPPLIED WITH THE MEDIATEK SOFTWARE, AND RECEIVER AGREES
+ * TO LOOK ONLY TO SUCH THIRD PARTY FOR ANY WARRANTY CLAIM RELATING THERETO.
+ * RECEIVER EXPRESSLY ACKNOWLEDGES THAT IT IS RECEIVER'S SOLE RESPONSIBILITY TO
+ * OBTAIN FROM ANY THIRD PARTY ALL PROPER LICENSES CONTAINED IN MEDIATEK
+ * SOFTWARE. MEDIATEK SHALL ALSO NOT BE RESPONSIBLE FOR ANY MEDIATEK SOFTWARE
+ * RELEASES MADE TO RECEIVER'S SPECIFICATION OR TO CONFORM TO A PARTICULAR
+ * STANDARD OR OPEN FORUM. RECEIVER'S SOLE AND EXCLUSIVE REMEDY AND MEDIATEK'S
+ * ENTIRE AND CUMULATIVE LIABILITY WITH RESPECT TO THE MEDIATEK SOFTWARE
+ * RELEASED HEREUNDER WILL BE, AT MEDIATEK'S OPTION, TO REVISE OR REPLACE THE
+ * MEDIATEK SOFTWARE AT ISSUE, OR REFUND ANY SOFTWARE LICENSE FEES OR SERVICE
+ * CHARGE PAID BY RECEIVER TO MEDIATEK FOR SUCH MEDIATEK SOFTWARE AT ISSUE.
+ *
+ * The following software/firmware and/or related documentation ("MediaTek
+ * Software") have been modified by MediaTek Inc. All revisions are subject to
+ * any receiver's applicable license agreements with MediaTek Inc.
+ */
+#ifndef CAMTOOL_CAMTOOL_H_
+#define CAMTOOL_CAMTOOL_H_
+
+/////////////////////////////////////////////////////////////////////////
+//! Typedefs
+/////////////////////////////////////////////////////////////////////////
+typedef unsigned char MUINT8;
+typedef uint16_t MUINT16;
+typedef unsigned int MUINT32;
+typedef signed char MINT8;
+typedef int16_t MINT16;
+typedef signed int MINT32;
+typedef void MVOID;
+typedef int MBOOL;  // MBOOL is int
+
+#ifndef MTRUE
+#define MTRUE 1
+#endif
+#ifndef MFALSE
+#define MFALSE 0
+#endif
+#ifndef MNULL
+#define MNULL 0
+#endif
+
+#define ACDK_CDVT_MAX_GAIN_TABLE_SIZE (1000)
+
+typedef enum
+{
+  ACDK_CDVT_FLICKER_50_HZ = 0,
+  ACDK_CDVT_FLICKER_60_HZ = 1
+} ACDK_CDVT_FLICKER_T;
+
+typedef enum
+{
+  ACDK_CDVT_CALIBRATION_OB = 0,
+  ACDK_CDVT_CALIBRATION_MIN_ISO = 1,
+  ACDK_CDVT_CALIBRATION_MIN_SAT_GAIN = 2
+} ACDK_CDVT_CALIBRATION_ITEM_T;
+
+typedef enum
+{
+  ACDK_CDVT_SENSOR_MODE_PREVIEW = 0,
+  ACDK_CDVT_SENSOR_MODE_CAPTURE = 1,
+  ACDK_CDVT_SENSOR_MODE_VIDEO = 2,
+  ACDK_CDVT_SENSOR_MODE_VIDEO1 = 3,
+  ACDK_CDVT_SENSOR_MODE_VIDEO2 = 4,
+  ACDK_CDVT_SENSOR_MODE_CUSTOM1 = 5,
+  ACDK_CDVT_SENSOR_MODE_CUSTOM2 = 6,
+  ACDK_CDVT_SENSOR_MODE_CUSTOM3 = 7,
+  ACDK_CDVT_SENSOR_MODE_CUSTOM4 = 8,
+  ACDK_CDVT_SENSOR_MODE_CUSTOM5= 9
+} ACDK_CDVT_SENSOR_MODE_T;
+
+typedef struct
+{
+  MINT32 i4ExpTime;
+  MINT32 i4Gain;
+  MINT32 i4RepeatTimes;
+} ACDK_CDVT_OB_CALIBRATION_T;
+
+typedef struct
+{
+  ACDK_CDVT_FLICKER_T eFlicker;
+  MINT32 i4LV;
+  MINT32 i4FNumber;
+  MINT32 i4OB;
+} ACDK_CDVT_MIN_ISO_CALIBRATION_T;
+
+typedef struct
+{
+  ACDK_CDVT_FLICKER_T eFlicker;
+  MINT32 i4TargetDeclineRate;
+  MINT32 i4GainBuffer;
+  MINT32 i4OB;
+} ACDK_CDVT_MIN_SAT_GAIN_CALIBRATION_T;
+
+typedef struct
+{
+  ACDK_CDVT_CALIBRATION_ITEM_T eCalibrationItem;
+  ACDK_CDVT_SENSOR_MODE_T eSensorMode;
+  ACDK_CDVT_OB_CALIBRATION_T rOB;
+  ACDK_CDVT_MIN_ISO_CALIBRATION_T rMinISO;
+  ACDK_CDVT_MIN_SAT_GAIN_CALIBRATION_T rMinSatGain;
+} ACDK_CDVT_SENSOR_CALIBRATION_INPUT_T;
+
+typedef enum
+{
+  ACDK_CDVT_TEST_EXPOSURE_LINEARITY = 0,
+  ACDK_CDVT_TEST_GAIN_LINEARITY = 1,
+  ACDK_CDVT_TEST_OB_STABILITY = 2
+} ACDK_CDVT_TEST_ITEM_T;
+
+typedef enum
+{
+  ACDK_CDVT_EXP_MODE_TIME = 0,
+  ACDK_CDVT_EXP_MODE_LINE = 1
+} ACDK_CDVT_EXP_MODE_T;
+
+typedef enum
+{
+  ACDK_CDVT_GAIN_CONFIG = 0,
+  ACDK_CDVT_GAIN_TABLE = 1
+} ACDK_CDVT_GAIN_CONTROL_MODE_T;
+
+typedef struct
+{
+  ACDK_CDVT_EXP_MODE_T eExpMode;
+  MINT32 i4Gain;
+  MINT32 i4ExpStart;
+  MINT32 i4ExpEnd;
+  MINT32 i4ExpInterval;
+} ACDK_CDVT_EXP_LINEARITY_TEST_T;
+
+typedef struct
+{
+  ACDK_CDVT_GAIN_CONTROL_MODE_T eGainControlMode;
+  MINT32 i4ExpTime;
+  MINT32 i4GainStart;
+  MINT32 i4GainEnd;
+  MINT32 i4GainInterval;
+  MINT32 i4GainTableSize;
+  MINT32 i4GainTable[ACDK_CDVT_MAX_GAIN_TABLE_SIZE];
+} ACDK_CDVT_GAIN_LINEARITY_OB_STABILITY_TEST_T;
+
+typedef struct
+{
+  ACDK_CDVT_TEST_ITEM_T eTestItem;
+  ACDK_CDVT_SENSOR_MODE_T eSensorMode;
+  ACDK_CDVT_EXP_LINEARITY_TEST_T rExpLinearity;
+  ACDK_CDVT_GAIN_LINEARITY_OB_STABILITY_TEST_T rGainLinearityOBStability;
+} ACDK_CDVT_SENSOR_TEST_INPUT_T;
+#endif  // CAMTOOL_CAMTOOL_H_
